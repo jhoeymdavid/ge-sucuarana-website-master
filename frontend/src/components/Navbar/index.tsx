@@ -22,26 +22,44 @@ const Navbar = () => {
   }
 
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
+    <AppBar position="static" color="default" elevation={0} sx={{ bgcolor: "#000" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo - Desktop */}
-          <Typography
-            variant="h6"
-            noWrap
+          <Box
             component={RouterLink}
             to="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontWeight: 700,
-              color: 'primary.main',
+              alignItems: 'center',
               textDecoration: 'none',
+              height: 72, // aumente a altura para comportar o logo maior
             }}
           >
-            Suçuarana
-          </Typography>
-
+            <img
+              src="/src/assets/logo-sucuarana.jpeg"
+              alt="Logo Suçuarana"
+              style={{
+                height: 64, // aumente o tamanho do logo
+                width: 'auto',
+                display: 'block',
+                background: 'transparent',
+                marginRight: 16
+              }}
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: '#BC884F', ml: 1 }}>
+              <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: 18, lineHeight: 1 }}>
+                283
+              </Typography>
+              <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: 18, lineHeight: 1 }}>
+                Grupo Escoteiro
+              </Typography>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold', fontSize: 18, lineHeight: 1 }}>
+                Suçuarana
+              </Typography>
+            </Box>
+          </Box>
           {/* Mobile menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -51,7 +69,7 @@ const Navbar = () => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon sx={{ color: '#BC884F' }} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -78,7 +96,7 @@ const Navbar = () => {
                   component={RouterLink}
                   to={page.path}
                 >
-                  <Typography textAlign="center">{page.title}</Typography>
+                  <Typography textAlign="center" sx={{ color: '#BC884F' }}>{page.title}</Typography>
                 </MenuItem>
               ))}
               <MenuItem
@@ -86,29 +104,46 @@ const Navbar = () => {
                 component={RouterLink}
                 to="/admin"
               >
-                <Typography textAlign="center">Admin</Typography>
+                <Typography textAlign="center" sx={{ color: '#BC884F' }}>Admin</Typography>
               </MenuItem>
             </Menu>
           </Box>
-
           {/* Logo - Mobile */}
-          <Typography
-            variant="h5"
-            noWrap
+          <Box
             component={RouterLink}
             to="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontWeight: 700,
-              color: 'primary.main',
+              alignItems: 'center',
               textDecoration: 'none',
+              height: 56,
             }}
           >
-            Suçuarana
-          </Typography>
-
+            <img
+              src="/src/assets/logo-sucuarana.jpeg"
+              alt="Logo Suçuarana"
+              style={{
+                height: 44, // aumenta um pouco o logo no mobile
+                width: 'auto',
+                display: 'block',
+                background: 'transparent',
+                marginRight: 8
+              }}
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: '#BC884F', ml: 1 }}>
+              <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: 14, lineHeight: 1 }}>
+                283
+              </Typography>
+              <Typography variant="caption" sx={{ fontWeight: 'bold', fontSize: 14, lineHeight: 1 }}>
+                Grupo Escoteiro
+              </Typography>
+              <Typography variant="subtitle2" sx={{ fontWeight: 'bold', fontSize: 14, lineHeight: 1 }}>
+                Suçuarana
+              </Typography>
+            </Box>
+          </Box>
           {/* Desktop menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
             {pages.map((page) => (
@@ -117,20 +152,26 @@ const Navbar = () => {
                 component={RouterLink}
                 to={page.path}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'text.primary', display: 'block', mx: 1 }}
+                sx={{ my: 2, color: '#BC884F', display: 'block', mx: 1 }}
               >
                 {page.title}
               </Button>
             ))}
           </Box>
-
           {/* Admin button - Desktop */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Button
               component={RouterLink}
               to="/admin"
               variant="contained"
-              sx={{ my: 2 }}
+              sx={{
+                my: 2,
+                backgroundColor: '#BC884F',
+                color: '#fff',
+                '&:hover': {
+                  backgroundColor: '#a06f3f'
+                }
+              }}
             >
               Admin
             </Button>
