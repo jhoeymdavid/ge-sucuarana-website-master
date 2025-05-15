@@ -37,8 +37,7 @@ Este projeto foi desenvolvido utilizando a poderosa stack **MERN** (MongoDB, Exp
 *   **Frontend:** 🖥️
     *   React (Biblioteca JavaScript para criação de interfaces de usuário dinâmicas e reativas)
     *   TypeScript (Superset do JavaScript que adiciona tipagem estática, melhorando a manutenibilidade e a detecção de erros)
-    *   [Liste outras bibliotecas ou frameworks de frontend utilizados, ex: Redux, Styled Components, Material-UI, Axios, etc.]
-
+    
 *   **Backend:** ⚙️
     *   Node.js (Ambiente de execução JavaScript altamente escalável para o servidor)
     *   Express.js (Framework minimalista e flexível para criação de APIs RESTful e aplicações web)
