@@ -34,14 +34,14 @@ const Navbar = () => {
               display: { xs: 'none', md: 'flex' },
               alignItems: 'center',
               textDecoration: 'none',
-              height: 72, // aumente a altura para comportar o logo maior
+              height: 72,
             }}
           >
             <img
               src="/src/assets/logo-sucuarana.jpeg"
               alt="Logo Suçuarana"
               style={{
-                height: 64, // aumente o tamanho do logo
+                height: 64,
                 width: 'auto',
                 display: 'block',
                 background: 'transparent',
@@ -125,7 +125,7 @@ const Navbar = () => {
               src="/src/assets/logo-sucuarana.jpeg"
               alt="Logo Suçuarana"
               style={{
-                height: 44, // aumenta um pouco o logo no mobile
+                height: 44,
                 width: 'auto',
                 display: 'block',
                 background: 'transparent',
