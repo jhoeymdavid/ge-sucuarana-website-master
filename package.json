@@ -1,0 +1,17 @@
+{
+  "name": "gesucuarana-website",
+  "version": "1.0.0",
+  "description": "Website do Grupo Escoteiro Suçuarana",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "install:all": "npm install && npm install --prefix frontend && npm install --prefix backend"
+  },
+  "keywords": ["escoteiros", "grupo escoteiro", "suçuarana"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
