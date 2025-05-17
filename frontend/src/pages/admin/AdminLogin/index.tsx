@@ -80,6 +80,7 @@ const AdminLogin = () => {
               value={formData.email}
               onChange={handleChange}
               required
+              InputLabelProps={{ shrink: true }}
             />
             <TextField
               fullWidth
@@ -89,6 +90,7 @@ const AdminLogin = () => {
               value={formData.password}
               onChange={handleChange}
               required
+              InputLabelProps={{ shrink: true }}
             />
             <Button
               type="submit"

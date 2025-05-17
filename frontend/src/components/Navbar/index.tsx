@@ -23,7 +23,7 @@ const Navbar = () => {
     setAnchorElNav(null)
   }
 
-  if (location.pathname === '/admin/login') {
+  if (location.pathname === '/admin/login' || location.pathname === '/admin/dashboard') {
     return (
       <AppBar position="static" color="default" elevation={0} sx={{ bgcolor: "#000" }}>
         <Container maxWidth="lg">
