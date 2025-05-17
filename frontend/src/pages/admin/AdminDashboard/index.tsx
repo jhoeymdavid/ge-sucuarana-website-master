@@ -1,6 +1,9 @@
 import { useState, useRef } from 'react'
 import { Box, Container, Typography, Paper, Tabs, Tab, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import { useEffect } from 'react'
+import { Grid, Card, CardMedia, CardActions, IconButton } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const DashboardContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -126,7 +129,36 @@ const AdminDashboard = () => {
                   onChange={handleFileChange}
                 />
               </Box>
-              {/* TODO: Implementar grid de imagens e upload */}
+              {/* Grid de imagens */}
+              {loadingImages ? (
+                <Typography>Carregando imagens...</Typography>
+              ) : (
+                <Grid container spacing={2}>
+                  {images.map(img => (
+                    <Grid item xs={12} sm={6} md={3} key={img._id}>
+                      <Card>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image={`http://localhost:5000/api/gallery/${img._id}`}
+                          alt={img.filename}
+                        />
+                        <CardActions>
+                          <IconButton
+                            aria-label="remover"
+                            onClick={() => handleDeleteImage(img._id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                          <Typography variant="body2" sx={{ ml: 1 }}>
+                            {img.filename}
+                          </Typography>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
             </Box>
           )}
 
@@ -163,5 +195,54 @@ const handleUpload = async (file: File) => {
     alert('Imagem enviada com sucesso!')
   } else {
     alert(data.message || 'Erro ao enviar imagem.')
+  }
+}
+
+const [images, setImages] = useState<{_id: string, filename: string}[]>([])
+const [loadingImages, setLoadingImages] = useState(false)
+
+// Buscar imagens ao abrir a aba Galeria
+useEffect(() => {
+  if (currentTab === 2) {
+    fetchImages()
+  }
+  // eslint-disable-next-line
+}, [currentTab])
+
+const fetchImages = async () => {
+  setLoadingImages(true)
+  try {
+    const response = await fetch('http://localhost:5000/api/gallery/')
+    const data = await response.json()
+    if (response.ok) {
+      setImages(data.images)
+    } else {
+      alert(data.message || 'Erro ao buscar imagens.')
+    }
+  } catch (err) {
+    alert('Erro ao conectar com o servidor.')
+  } finally {
+    setLoadingImages(false)
+  }
+}
+
+const handleDeleteImage = async (id: string) => {
+  if (!window.confirm('Tem certeza que deseja remover esta imagem?')) return
+  const token = localStorage.getItem('token')
+  try {
+    const response = await fetch(`http://localhost:5000/api/gallery/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    if (response.ok) {
+      setImages(prev => prev.filter(img => img._id !== id))
+    } else {
+      const data = await response.json()
+      alert(data.message || 'Erro ao remover imagem.')
+    }
+  } catch (err) {
+    alert('Erro ao conectar com o servidor.')
   }
 }
