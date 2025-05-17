@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Box, Container, Typography, Paper, Tabs, Tab, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
@@ -15,9 +15,49 @@ const ContentPaper = styled(Paper)(({ theme }) => ({
 
 const AdminDashboard = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue)
+  }
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+      fileInputRef.current.click()
+    }
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    const token = localStorage.getItem('token')
+    const formData = new FormData()
+    formData.append('image', file)
+
+    try {
+      const response = await fetch('http://localhost:5000/api/gallery/upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      })
+      const data = await response.json()
+      if (response.ok) {
+        alert('Imagem enviada com sucesso!')
+        // Aqui você pode atualizar a lista de imagens, se desejar
+      } else {
+        alert(data.message || 'Erro ao enviar imagem.')
+      }
+    } catch (err) {
+      alert('Erro ao conectar com o servidor.')
+    } finally {
+      setUploading(false)
+    }
   }
 
   return (
@@ -70,9 +110,21 @@ const AdminDashboard = () => {
             <Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                 <Typography variant="h5">Gerenciar Galeria</Typography>
-                <Button variant="contained" color="primary">
-                  Adicionar Imagens
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleButtonClick}
+                  disabled={uploading}
+                >
+                  {uploading ? 'Enviando...' : 'Upload de Imagem'}
                 </Button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
               </Box>
               {/* TODO: Implementar grid de imagens e upload */}
             </Box>

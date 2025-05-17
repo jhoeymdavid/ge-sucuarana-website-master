@@ -4,18 +4,22 @@ import { Box, Button, Container, Paper, TextField, Typography } from '@mui/mater
 import { styled } from '@mui/material/styles'
 
 const LoginContainer = styled(Box)(({ theme }) => ({
-  minHeight: '100vh',
+  minHeight: 'calc(100vh - 72px)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: theme.palette.custom.lightGray,
-  padding: theme.spacing(3),
+  padding: theme.spacing(0),
+  [theme.breakpoints.down('sm')]: {
+    minHeight: 'calc(100vh - 56px)', // Navbar menor no mobile
+    paddingTop: theme.spacing(2),    // Espaço menor no topo no mobile
+  },
 }))
 
 const LoginForm = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(4),
+  padding: theme.spacing(3),
   width: '100%',
-  maxWidth: '400px',
+
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(3),
@@ -59,42 +63,44 @@ const AdminLogin = () => {
 
   return (
     <LoginContainer>
-      <Container maxWidth="sm">
-        <LoginForm elevation={3} component="form" onSubmit={handleSubmit}>
-          <Typography variant="h4" component="h1" align="center" gutterBottom>
-            Área Administrativa
-          </Typography>
-          <Typography variant="body1" color="text.secondary" align="center" gutterBottom>
-            Faça login para acessar o painel administrativo
-          </Typography>
-          <TextField
-            fullWidth
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <TextField
-            fullWidth
-            label="Senha"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            size="large"
-            fullWidth
-          >
-            Entrar
-          </Button>
-        </LoginForm>
+      <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 400 }}>
+          <LoginForm elevation={3}>
+            <Typography variant="h4" component="h1" align="center" gutterBottom>
+              Área Administrativa
+            </Typography>
+            <Typography variant="body1" color="text.secondary" align="center" gutterBottom>
+              Faça login para acessar o painel administrativo
+            </Typography>
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              fullWidth
+              label="Senha"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              fullWidth
+            >
+              Entrar
+            </Button>
+          </LoginForm>
+        </form>
       </Container>
     </LoginContainer>
   )

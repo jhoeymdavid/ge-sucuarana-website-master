@@ -2,16 +2,18 @@ import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Ty
 import MenuIcon from '@mui/icons-material/Menu'
 import { useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const pages = [
   { title: 'Quem Somos', path: '/quem-somos' },
-  { title: 'Notícias', path: '/noticias' },
+  { title: 'Notícias', path: '/noticias' }, 
   { title: 'Como Se Tornar um Escoteiro', path: '/como-se-tornar-escoteiro' },
   { title: 'Contato', path: '/contato' }
 ]
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
+  const location = useLocation()
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
@@ -19,6 +21,41 @@ const Navbar = () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
+  }
+
+  if (location.pathname === '/admin/login') {
+    return (
+      <AppBar position="static" color="default" elevation={0} sx={{ bgcolor: "#000" }}>
+        <Container maxWidth="lg">
+          <Toolbar disableGutters sx={{ justifyContent: 'center' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textDecoration: 'none',
+                height: 72,
+                mx: 'auto'
+              }}
+            >
+              <img
+                src="/src/assets/logo-sucuarana.jpeg"
+                alt="Logo Suçuarana"
+                style={{
+                  height: 64,
+                  width: 'auto',
+                  display: 'block',
+                  background: 'transparent',
+                  marginRight: 16
+                }}
+              />
+              <Typography variant="h6" sx={{ color: '#BC884F', fontWeight: 'bold' }}>
+                Bem-vindo ao painel de administração
+              </Typography>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    )
   }
 
   return (
@@ -102,7 +139,7 @@ const Navbar = () => {
               <MenuItem
                 onClick={handleCloseNavMenu}
                 component={RouterLink}
-                to="/admin"
+                to="/admin/login"
               >
                 <Typography textAlign="center" sx={{ color: '#BC884F' }}>Admin</Typography>
               </MenuItem>
@@ -162,7 +199,7 @@ const Navbar = () => {
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Button
               component={RouterLink}
-              to="/admin"
+              to="/admin/login"
               variant="contained"
               sx={{
                 my: 2,
