@@ -91,3 +91,25 @@ const AdminDashboard = () => {
 }
 
 export default AdminDashboard
+
+const handleUpload = async (file: File) => {
+  const token = localStorage.getItem('token')
+  const formData = new FormData()
+  formData.append('image', file)
+
+  const response = await fetch('http://localhost:5000/api/gallery/upload', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`
+      // Não inclua 'Content-Type' ao usar FormData!
+    },
+    body: formData
+  })
+
+  const data = await response.json()
+  if (response.ok) {
+    alert('Imagem enviada com sucesso!')
+  } else {
+    alert(data.message || 'Erro ao enviar imagem.')
+  }
+}

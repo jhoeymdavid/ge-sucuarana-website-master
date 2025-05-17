@@ -22,53 +22,20 @@ const Footer = () => {
               Grupo Escoteiro Suçuarana
             </Typography>
             <Typography variant="body2" sx={{ color: '#BC884F' }}>
-              Rua dos Escoteiros, 123<br />
-              Bairro Centro<br />
+              R. Antônio João de Medeiros, 170<br />
               São Paulo - SP<br />
-              CEP: 01234-567
+              CEP: 08140-060
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" gutterBottom sx={{ color: '#BC884F' }}>
-              Links Úteis
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Link
-                component={RouterLink}
-                to="/quem-somos"
-                sx={{ mb: 1, color: '#BC884F' }}
-              >
-                Quem Somos
-              </Link>
-              <Link
-                component={RouterLink}
-                to="/noticias"
-                sx={{ mb: 1, color: '#BC884F' }}
-              >
-                Notícias
-              </Link>
-              <Link
-                component={RouterLink}
-                to="/como-se-tornar-escoteiro"
-                sx={{ mb: 1, color: '#BC884F' }}
-              >
-                Como Se Tornar um Escoteiro
-              </Link>
-              <Link
-                component={RouterLink}
-                to="/contato"
-                sx={{ color: '#BC884F' }}
-              >
-                Contato
-              </Link>
-            </Box>
+            {/* Espaço vazio para centralizar ou outros conteúdos */}
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h6" gutterBottom sx={{ color: '#BC884F' }}>
               Contato
             </Typography>
             <Typography variant="body2" paragraph sx={{ color: '#BC884F' }}>
-              Telefone: (11) 1234-5678
+              Telefone: (11) 2561-8791
             </Typography>
             <Typography variant="body2" paragraph sx={{ color: '#BC884F' }}>
               Email: contato@sucuarana.org.br

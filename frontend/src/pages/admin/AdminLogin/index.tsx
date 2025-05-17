@@ -38,10 +38,23 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement login logic with backend
-    console.log('Login attempt:', formData)
-    // Temporary navigation for development
-    navigate('/admin/dashboard')
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      const data = await response.json()
+      if (response.ok) {
+        // Salve o token no localStorage (ou cookies)
+        localStorage.setItem('token', data.token)
+        navigate('/admin/dashboard')
+      } else {
+        alert(data.message || 'Falha no login')
+      }
+    } catch (err) {
+      alert('Erro ao conectar com o servidor')
+    }
   }
 
   return (

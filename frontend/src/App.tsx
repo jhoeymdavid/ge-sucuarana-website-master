@@ -5,6 +5,7 @@ import Footer from '@components/Footer'
 import HomePage from '@pages/HomePage'
 import AdminLogin from '@pages/admin/AdminLogin'
 import AdminDashboard from '@pages/admin/AdminDashboard'
+import PrivateRoute from './components/PrivateRoute'
 
 const App = () => {
   return (
@@ -13,8 +14,12 @@ const App = () => {
       <Box component="main" sx={{ flex: 1 }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<PrivateRoute />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            {/* Outras rotas protegidas do admin */}
+          </Route>
+          {/* Outras rotas públicas */}
         </Routes>
       </Box>
       <Footer />
