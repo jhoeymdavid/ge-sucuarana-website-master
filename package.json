@@ -8,10 +8,19 @@
     "dev:backend": "cd backend && npm run dev",
     "install:all": "npm install && npm install --prefix frontend && npm install --prefix backend"
   },
-  "keywords": ["escoteiros", "grupo escoteiro", "suçuarana"],
+  "keywords": [
+    "escoteiros",
+    "grupo escoteiro",
+    "suçuarana"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/react-slick": "^0.23.13",
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "react-slick": "^0.30.3",
+    "slick-carousel": "^1.8.1"
   }
 }

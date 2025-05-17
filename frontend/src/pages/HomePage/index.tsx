@@ -1,5 +1,6 @@
 import { Box, Button, Container, Grid, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import ImageSlider from '@components/ImageSlider';
 
 const HeroSection = styled(Box)(({ theme }) => ({
   minHeight: '80vh',
@@ -61,21 +62,7 @@ const HomePage = () => {
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  position: 'relative',
-                  '& img': {
-                    maxWidth: '100%',
-                    height: 'auto',
-                    borderRadius: '20px',
-                  },
-                }}
-              >
-                <img
-                  src="/images/hero-image.jpg"
-                  alt="Grupo Escoteiro em atividade"
-                />
-              </Box>
+              <ImageSlider />
             </Grid>
           </Grid>
         </Container>
@@ -84,4 +71,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default HomePage;
