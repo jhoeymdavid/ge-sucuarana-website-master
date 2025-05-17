@@ -1,9 +1,8 @@
-import { useState, useRef } from 'react'
-import { Box, Container, Typography, Paper, Tabs, Tab, Button } from '@mui/material'
+import { useState, useRef, useEffect } from 'react'
+import { Box, Container, Typography, Paper, Tabs, Tab, Button, Grid, Card, CardMedia, CardActions, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { useEffect } from 'react'
-import { Grid, Card, CardMedia, CardActions, IconButton } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { TextField } from '@mui/material';
 
 const DashboardContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -19,7 +18,10 @@ const ContentPaper = styled(Paper)(({ theme }) => ({
 const AdminDashboard = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [uploading, setUploading] = useState(false)
+  const [images, setImages] = useState<{ _id: string, filename: string, name: string }[]>([])
+  const [loadingImages, setLoadingImages] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [imageName, setImageName] = useState('');
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue)
@@ -33,35 +35,82 @@ const AdminDashboard = () => {
   }
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    setUploading(true)
-    const token = localStorage.getItem('token')
-    const formData = new FormData()
-    formData.append('image', file)
+    setUploading(true);
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('name', imageName);
 
     try {
-      const response = await fetch('http://localhost:5000/api/gallery/upload', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        body: formData
-      })
+        const response = await fetch('http://localhost:5000/api/gallery/upload', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+        const data = await response.json();
+        if (response.ok) {
+            alert('Imagem enviada com sucesso!');
+            setImageName(''); 
+            fetchImages();
+        } else {
+            alert(data.message || 'Erro ao enviar imagem.');
+        }
+    } catch (err) {
+        alert('Erro ao conectar com o servidor.');
+    } finally {
+        setUploading(false);
+    }
+}
+
+  const fetchImages = async () => {
+    setLoadingImages(true)
+    try {
+      const response = await fetch('http://localhost:5000/api/gallery/')
       const data = await response.json()
       if (response.ok) {
-        alert('Imagem enviada com sucesso!')
-        // Aqui você pode atualizar a lista de imagens, se desejar
+        setImages(data.images)
       } else {
-        alert(data.message || 'Erro ao enviar imagem.')
+        alert(data.message || 'Erro ao buscar imagens.')
       }
     } catch (err) {
       alert('Erro ao conectar com o servidor.')
     } finally {
-      setUploading(false)
+      setLoadingImages(false)
     }
   }
+
+  const handleDeleteImage = async (id: string) => {
+    if (!window.confirm('Tem certeza que deseja remover esta imagem?')) return
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`http://localhost:5000/api/gallery/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      if (response.ok) {
+        setImages(prev => prev.filter(img => img._id !== id))
+      } else {
+        const data = await response.json()
+        alert(data.message || 'Erro ao remover imagem.')
+      }
+    } catch (err) {
+      alert('Erro ao conectar com o servidor.')
+    }
+  }
+
+  useEffect(() => {
+    if (currentTab === 2) {
+      fetchImages()
+    }
+    // eslint-disable-next-line
+  }, [currentTab])
 
   return (
     <DashboardContainer>
@@ -117,7 +166,7 @@ const AdminDashboard = () => {
                   variant="contained"
                   color="primary"
                   onClick={handleButtonClick}
-                  disabled={uploading}
+                  disabled={uploading || imageName === ''}
                 >
                   {uploading ? 'Enviando...' : 'Upload de Imagem'}
                 </Button>
@@ -129,6 +178,13 @@ const AdminDashboard = () => {
                   onChange={handleFileChange}
                 />
               </Box>
+              <TextField
+                fullWidth
+                label="Nome da imagem"
+                value={imageName}
+                onChange={(e) => setImageName(e.target.value)}
+                sx={{ mb: 3 }}
+              />
               {/* Grid de imagens */}
               {loadingImages ? (
                 <Typography>Carregando imagens...</Typography>
@@ -151,7 +207,7 @@ const AdminDashboard = () => {
                             <DeleteIcon />
                           </IconButton>
                           <Typography variant="body2" sx={{ ml: 1 }}>
-                            {img.filename}
+                            {img.name} 
                           </Typography>
                         </CardActions>
                       </Card>
@@ -175,74 +231,3 @@ const AdminDashboard = () => {
 }
 
 export default AdminDashboard
-
-const handleUpload = async (file: File) => {
-  const token = localStorage.getItem('token')
-  const formData = new FormData()
-  formData.append('image', file)
-
-  const response = await fetch('http://localhost:5000/api/gallery/upload', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`
-      // Não inclua 'Content-Type' ao usar FormData!
-    },
-    body: formData
-  })
-
-  const data = await response.json()
-  if (response.ok) {
-    alert('Imagem enviada com sucesso!')
-  } else {
-    alert(data.message || 'Erro ao enviar imagem.')
-  }
-}
-
-const [images, setImages] = useState<{_id: string, filename: string}[]>([])
-const [loadingImages, setLoadingImages] = useState(false)
-
-// Buscar imagens ao abrir a aba Galeria
-useEffect(() => {
-  if (currentTab === 2) {
-    fetchImages()
-  }
-  // eslint-disable-next-line
-}, [currentTab])
-
-const fetchImages = async () => {
-  setLoadingImages(true)
-  try {
-    const response = await fetch('http://localhost:5000/api/gallery/')
-    const data = await response.json()
-    if (response.ok) {
-      setImages(data.images)
-    } else {
-      alert(data.message || 'Erro ao buscar imagens.')
-    }
-  } catch (err) {
-    alert('Erro ao conectar com o servidor.')
-  } finally {
-    setLoadingImages(false)
-  }
-}
-
-const handleDeleteImage = async (id: string) => {
-  if (!window.confirm('Tem certeza que deseja remover esta imagem?')) return
-  const token = localStorage.getItem('token')
-  try {
-    const response = await fetch(`http://localhost:5000/api/gallery/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    if (response.ok) {
-      setImages(prev => prev.filter(img => img._id !== id))
-    } else {
-      const data = await response.json()
-      alert(data.message || 'Erro ao remover imagem.')
-    }
-  } catch (err) {
-    alert('Erro ao conectar com o servidor.')
-  }
-}

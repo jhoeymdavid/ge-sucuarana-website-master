@@ -13,7 +13,8 @@ galleryRouter.post('/upload', auth, upload.single('image'), async (req, res) => 
     const image = new GalleryImage({
       filename: originalname,
       mimetype,
-      data: buffer
+      data: buffer,
+      name: req.body.name
     })
     await image.save()
     res.status(201).json({ message: 'Imagem enviada com sucesso!' })
@@ -25,7 +26,7 @@ galleryRouter.post('/upload', auth, upload.single('image'), async (req, res) => 
 // Listar imagens (retorna apenas id e nome)
 galleryRouter.get('/', async (req, res) => {
   try {
-    const images = await GalleryImage.find({}, '_id filename')
+    const images = await GalleryImage.find({}, 'name') 
     res.json({ images })
   } catch (err) {
     res.status(500).json({ message: 'Erro ao buscar imagens.' })
@@ -41,6 +42,17 @@ galleryRouter.get('/:id', async (req, res) => {
     res.send(image.data)
   } catch (err) {
     res.status(500).json({ message: 'Erro ao buscar imagem.' })
+  }
+})
+
+// Rota para deletar uma imagem por ID
+galleryRouter.delete('/:id', auth, async (req, res) => {
+  try {
+    const image = await GalleryImage.findByIdAndDelete(req.params.id)
+    if (!image) return res.status(404).json({ message: 'Imagem não encontrada.' })
+    res.json({ message: 'Imagem removida com sucesso!' })
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao remover imagem.' })
   }
 })
 
