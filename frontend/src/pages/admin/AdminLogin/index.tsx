@@ -4,18 +4,22 @@ import { Box, Button, Container, Paper, TextField, Typography } from '@mui/mater
 import { styled } from '@mui/material/styles'
 
 const LoginContainer = styled(Box)(({ theme }) => ({
-  minHeight: '100vh',
+  minHeight: 'calc(100vh - 72px)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: theme.palette.custom.lightGray,
-  padding: theme.spacing(3),
+  padding: theme.spacing(0),
+  [theme.breakpoints.down('sm')]: {
+    minHeight: 'calc(100vh - 56px)', // Navbar menor no mobile
+    paddingTop: theme.spacing(2),    // Espaço menor no topo no mobile
+  },
 }))
 
 const LoginForm = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(4),
+  padding: theme.spacing(3),
   width: '100%',
-  maxWidth: '400px',
+
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(3),
@@ -38,50 +42,67 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement login logic with backend
-    console.log('Login attempt:', formData)
-    // Temporary navigation for development
-    navigate('/admin/dashboard')
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      const data = await response.json()
+      if (response.ok) {
+        // Salve o token no localStorage (ou cookies)
+        localStorage.setItem('token', data.token)
+        navigate('/admin/dashboard')
+      } else {
+        alert(data.message || 'Falha no login')
+      }
+    } catch (err) {
+      alert('Erro ao conectar com o servidor')
+    }
   }
 
   return (
     <LoginContainer>
-      <Container maxWidth="sm">
-        <LoginForm elevation={3} component="form" onSubmit={handleSubmit}>
-          <Typography variant="h4" component="h1" align="center" gutterBottom>
-            Área Administrativa
-          </Typography>
-          <Typography variant="body1" color="text.secondary" align="center" gutterBottom>
-            Faça login para acessar o painel administrativo
-          </Typography>
-          <TextField
-            fullWidth
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <TextField
-            fullWidth
-            label="Senha"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            size="large"
-            fullWidth
-          >
-            Entrar
-          </Button>
-        </LoginForm>
+      <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 400 }}>
+          <LoginForm elevation={3}>
+            <Typography variant="h4" component="h1" align="center" gutterBottom>
+              Área Administrativa
+            </Typography>
+            <Typography variant="body1" color="text.secondary" align="center" gutterBottom>
+              Faça login para acessar o painel administrativo
+            </Typography>
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              InputLabelProps={{ shrink: true }}
+            />
+            <TextField
+              fullWidth
+              label="Senha"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              InputLabelProps={{ shrink: true }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              fullWidth
+            >
+              Entrar
+            </Button>
+          </LoginForm>
+        </form>
       </Container>
     </LoginContainer>
   )

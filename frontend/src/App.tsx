@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { Box } from '@mui/material'
 import Navbar from '@components/Navbar'
-import Footer from '@components/Footer'
 import HomePage from '@pages/HomePage'
 import AdminLogin from '@pages/admin/AdminLogin'
 import AdminDashboard from '@pages/admin/AdminDashboard'
@@ -13,11 +12,11 @@ const App = () => {
       <Box component="main" sx={{ flex: 1 }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
       </Box>
-      <Footer />
+      {/* <Footer /> Removido conforme solicitado */}
     </Box>
   )
 }

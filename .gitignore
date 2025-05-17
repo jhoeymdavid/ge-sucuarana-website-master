@@ -58,3 +58,4 @@ mongodb/
 
 # System Files
 Thumbs.db
+.env
