@@ -4,6 +4,7 @@ import Navbar from '@components/Navbar'
 import HomePage from '@pages/HomePage'
 import AdminLogin from '@pages/admin/AdminLogin'
 import AdminDashboard from '@pages/admin/AdminDashboard'
+import ContactPage from './pages/ContactPage'
 
 const App = () => {
   return (
@@ -14,9 +15,9 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path = "/contato" element = {<ContactPage />} />
         </Routes>
       </Box>
-      {/* <Footer /> Removido conforme solicitado */}
     </Box>
   )
 }
