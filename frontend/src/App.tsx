@@ -5,6 +5,7 @@ import HomePage from '@pages/HomePage'
 import AdminLogin from '@pages/admin/AdminLogin'
 import AdminDashboard from '@pages/admin/AdminDashboard'
 import ContactPage from './pages/ContactPage'
+import ComoSeTornarEscoteiro from './pages/ComoSeTornarEscoteiro/ComoSeTornarEscoteiro'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path = "/contato" element = {<ContactPage />} />
+          <Route path="/como-se-tornar-escoteiro" element={<ComoSeTornarEscoteiro />} />
         </Routes>
       </Box>
     </Box>
