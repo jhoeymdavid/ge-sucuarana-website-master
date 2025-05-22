@@ -14,8 +14,7 @@ import {
   SelectChangeEvent
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { Editor } from '@tinymce/tinymce-react';
 
 const FormPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -179,11 +178,24 @@ const NewsForm = ({ onSuccess, newsToEdit }: NewsFormProps) => {
         <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>
           Conteúdo
         </Typography>
-        <ReactQuill 
-          theme="snow" 
-          value={content} 
-          onChange={setContent}
-          style={{ height: '200px', marginBottom: '50px' }}
+        <Editor
+          apiKey="your-api-key-here" // Você precisará obter uma chave API gratuita em https://www.tiny.cloud/
+          value={content}
+          onEditorChange={(newCont ent) => setContent(newContent)}
+          init={{
+            height: 500,
+            menubar: false,
+            plugins: [
+              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+              'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks | ' +
+              'bold italic forecolor | alignleft aligncenter ' +
+              'alignright alignjustify | bullist numlist outdent indent | ' +
+              'removeformat | help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+          }}
         />
 
         <FormControl fullWidth margin="normal">
