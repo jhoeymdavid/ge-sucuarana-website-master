@@ -6,6 +6,8 @@ import AdminLogin from '@pages/admin/AdminLogin'
 import AdminDashboard from '@pages/admin/AdminDashboard'
 import ContactPage from './pages/ContactPage'
 import ComoSeTornarEscoteiro from './pages/ComoSeTornarEscoteiro/ComoSeTornarEscoteiro'
+import NewsPage from './pages/NewsPage'
+import NewsDetail from './pages/NewsDetail'
 
 const App = () => {
   return (
@@ -18,6 +20,8 @@ const App = () => {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path = "/contato" element = {<ContactPage />} />
           <Route path="/como-se-tornar-escoteiro" element={<ComoSeTornarEscoteiro />} />
+          <Route path="/noticias" element={<NewsPage />} />
+          <Route path="/noticias/:id" element={<NewsDetail />} />
         </Routes>
       </Box>
     </Box>
