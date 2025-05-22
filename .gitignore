@@ -38,6 +38,7 @@ yarn-error.log*
 /backend/logs
 /backend/*.log
 /backend/scripts
+/backend/src/middleware/
 
 # MongoDB
 *.mongodb
