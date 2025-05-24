@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Grid, Link, Paper } from '@mui/material'
+import { Box, Container, Typography, Link, Paper } from '@mui/material'
 
 const endereco = "R. Antônio João de Medeiros, 170 - Jardim Tua, São Paulo - SP, 08140-060"
 const telefone = "(11) 2561-8791"

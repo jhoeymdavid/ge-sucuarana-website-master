@@ -22,7 +22,8 @@ const FormPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const ImagePreview = styled('img')({
-  width: '100%',
+  maxWidth: '100%',
+  height: 'auto',
   maxHeight: '300px',
   objectFit: 'contain',
   marginTop: '10px',
@@ -179,9 +180,9 @@ const NewsForm = ({ onSuccess, newsToEdit }: NewsFormProps) => {
           Conteúdo
         </Typography>
         <Editor
-          apiKey="your-api-key-here" // Você precisará obter uma chave API gratuita em https://www.tiny.cloud/
+          apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
           value={content}
-          onEditorChange={(newCont ent) => setContent(newContent)}
+          onEditorChange={(newContent: string) => setContent(newContent)}
           init={{
             height: 500,
             menubar: false,

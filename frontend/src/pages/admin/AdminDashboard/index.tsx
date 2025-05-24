@@ -1,14 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
-import { Box, Container, Typography, Paper, Tabs, Tab, Button, Grid, Card, CardMedia, CardContent, CardActions, IconButton, CircularProgress, Divider } from '@mui/material'
+import { Box, Container, Typography, Paper, Tabs, Tab, Button, Grid, Card, CardMedia, CardContent, CardActions, IconButton, CircularProgress, Divider, AppBar, Toolbar } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { TextField } from '@mui/material';
 import NewsForm from '../NewsForm'
+import { useNavigate } from 'react-router-dom'
 
 const DashboardContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
-  backgroundColor: theme.palette.custom.lightGray,
+  backgroundColor: theme.palette.custom?.lightGray || '#F5F5F5',
   minHeight: '100vh',
 }))
 
@@ -18,14 +20,23 @@ const ContentPaper = styled(Paper)(({ theme }) => ({
 }))
 
 const AdminDashboard = () => {
+  const navigate = useNavigate()
   const [currentTab, setCurrentTab] = useState(0)
   const [uploading, setUploading] = useState(false)
   const [images, setImages] = useState<{ _id: string, filename: string, name: string }[]>([])
   const [loadingImages, setLoadingImages] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [imageName, setImageName] = useState('');
+  
+  const handleLogout = () => {
+    // Limpar tanto localStorage quanto sessionStorage
+    localStorage.removeItem('token')
+    sessionStorage.removeItem('token')
+    // Redirecionar para a página de login
+    navigate('/admin/login')
+  }
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue)
   }
 
@@ -141,6 +152,11 @@ const AdminDashboard = () => {
       setLoadingNews(false);
     }
   };
+
+  // Carregar a lista de notícias quando o componente for montado
+  useEffect(() => {
+    fetchNewsList();
+  }, []);
   
   const handleEditNews = (news: any) => {
     setSelectedNews(news);
@@ -173,10 +189,6 @@ const AdminDashboard = () => {
   
   // Componente para listar notícias
   const NewsList = () => {
-    useEffect(() => {
-      fetchNewsList();
-    }, []);
-    
     if (loadingNews) {
       return (
         <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
@@ -240,10 +252,21 @@ const AdminDashboard = () => {
   
   return (
     <DashboardContainer>
+      <AppBar position="static" color="default" elevation={0} sx={{ mb: 3 }}>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Painel Administrativo
+          </Typography>
+          <Button 
+            color="inherit" 
+            onClick={handleLogout}
+            startIcon={<LogoutIcon />}
+          >
+            Sair
+          </Button>
+        </Toolbar>
+      </AppBar>
       <Container maxWidth="lg">
-        <Typography variant="h4" component="h1" gutterBottom>
-          Painel Administrativo
-        </Typography>
 
         <Paper sx={{ mb: 3 }}>
           <Tabs

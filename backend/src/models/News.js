@@ -32,7 +32,13 @@ const newsSchema = new mongoose.Schema({
     type: String,
     enum: ['draft', 'published'],
     default: 'draft'
-  }
+  },
+  imageDimensions: {
+    width: { type: Number, default: 800 },
+    height: { type: Number, default: 450 }
+  },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 })
 
 const News = mongoose.model('News', newsSchema)

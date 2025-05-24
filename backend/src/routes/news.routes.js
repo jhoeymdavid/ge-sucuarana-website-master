@@ -1,10 +1,37 @@
 import { Router } from 'express';
 import multer from 'multer';
+import path from 'path';
 import News from '../models/News.js';
 import auth from '../middleware/auth.js';
 
 const newsRouter = Router();
 const upload = multer();
+
+// Image upload route
+newsRouter.post('/upload-image', auth, upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'Nenhum arquivo enviado' });
+    }
+
+    const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    res.json({ 
+      url: base64Image,
+      location: `http://localhost:5000/api/news/upload-image/${req.file.originalname}`,
+      meta: {
+        title: req.file.originalname,
+        alt: req.file.originalname,
+        dimensions: {
+          width: '800',
+          height: '450'
+        }
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao fazer upload da imagem' });
+  }
+});
 
 // Criar notícia (POST)
 newsRouter.post('/', auth, upload.single('image'), async (req, res) => {
@@ -26,6 +53,7 @@ newsRouter.post('/', auth, upload.single('image'), async (req, res) => {
       // ou salvar diretamente no banco como base64
       const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
       news.image = base64Image;
+      news.imageDimensions = { width: 800, height: 450 };
     }
     
     await news.save();
@@ -78,6 +106,7 @@ newsRouter.put('/:id', auth, upload.single('image'), async (req, res) => {
     if (req.file) {
       const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
       existingNews.image = base64Image;
+      existingNews.imageDimensions = { width: 800, height: 450 };
     }
     
     // Se o status mudar para 'published', atualizar a data de publicação
