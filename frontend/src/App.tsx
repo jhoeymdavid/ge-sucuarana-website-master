@@ -6,6 +6,9 @@ import AdminLogin from '@pages/admin/AdminLogin'
 import AdminDashboard from '@pages/admin/AdminDashboard'
 import ContactPage from './pages/ContactPage'
 import ComoSeTornarEscoteiro from './pages/ComoSeTornarEscoteiro/ComoSeTornarEscoteiro'
+import NewsPage from './pages/NewsPage'
+import NewsDetail from './pages/NewsDetail'
+import PrivateRoute from '@components/PrivateRoute'
 
 const App = () => {
   return (
@@ -15,9 +18,13 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          </Route>
           <Route path = "/contato" element = {<ContactPage />} />
           <Route path="/como-se-tornar-escoteiro" element={<ComoSeTornarEscoteiro />} />
+          <Route path="/noticias" element={<NewsPage />} />
+          <Route path="/noticias/:id" element={<NewsDetail />} />
         </Routes>
       </Box>
     </Box>

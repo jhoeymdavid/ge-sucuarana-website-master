@@ -1,12 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
-import { Box, Container, Typography, Paper, Tabs, Tab, Button, Grid, Card, CardMedia, CardActions, IconButton } from '@mui/material'
+import { Box, Container, Typography, Paper, Tabs, Tab, Button, Grid, Card, CardMedia, CardContent, CardActions, IconButton, CircularProgress, Divider, AppBar, Toolbar } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { TextField } from '@mui/material';
+import NewsForm from '../NewsForm'
+import { useNavigate } from 'react-router-dom'
 
 const DashboardContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
-  backgroundColor: theme.palette.custom.lightGray,
+  backgroundColor: theme.palette.custom?.lightGray || '#F5F5F5',
   minHeight: '100vh',
 }))
 
@@ -16,14 +20,23 @@ const ContentPaper = styled(Paper)(({ theme }) => ({
 }))
 
 const AdminDashboard = () => {
+  const navigate = useNavigate()
   const [currentTab, setCurrentTab] = useState(0)
   const [uploading, setUploading] = useState(false)
   const [images, setImages] = useState<{ _id: string, filename: string, name: string }[]>([])
   const [loadingImages, setLoadingImages] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [imageName, setImageName] = useState('');
+  
+  const handleLogout = () => {
+    // Limpar tanto localStorage quanto sessionStorage
+    localStorage.removeItem('token')
+    sessionStorage.removeItem('token')
+    // Redirecionar para a página de login
+    navigate('/admin/login')
+  }
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue)
   }
 
@@ -112,12 +125,148 @@ const AdminDashboard = () => {
     // eslint-disable-next-line
   }, [currentTab])
 
+  // Estado e funções para gerenciar notícias
+  const [newsList, setNewsList] = useState<any[]>([]);
+  const [loadingNews, setLoadingNews] = useState(false);
+  const [selectedNews, setSelectedNews] = useState<any>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  
+  const fetchNewsList = async () => {
+    setLoadingNews(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/api/news', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setNewsList(data);
+      } else {
+        alert(data.message || 'Erro ao buscar notícias.');
+      }
+    } catch (err) {
+      alert('Erro ao conectar com o servidor.');
+    } finally {
+      setLoadingNews(false);
+    }
+  };
+
+  // Carregar a lista de notícias quando o componente for montado
+  useEffect(() => {
+    fetchNewsList();
+  }, []);
+  
+  const handleEditNews = (news: any) => {
+    setSelectedNews(news);
+    setIsEditing(true);
+  };
+  
+  const handleDeleteNews = async (id: string) => {
+    if (!window.confirm('Tem certeza que deseja excluir esta notícia?')) return;
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5000/api/news/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        alert('Notícia excluída com sucesso!');
+        fetchNewsList();
+      } else {
+        const data = await response.json();
+        alert(data.message || 'Erro ao excluir notícia.');
+      }
+    } catch (err) {
+      alert('Erro ao conectar com o servidor.');
+    }
+  };
+  
+  // Componente para listar notícias
+  const NewsList = () => {
+    if (loadingNews) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
+          <CircularProgress />
+        </Box>
+      );
+    }
+    
+    if (newsList.length === 0) {
+      return <Typography>Nenhuma notícia encontrada.</Typography>;
+    }
+    
+    return (
+      <Box>
+        <Typography variant="h6" gutterBottom>
+          Notícias Existentes
+        </Typography>
+        <Grid container spacing={2}>
+          {newsList.map((news) => (
+            <Grid item xs={12} sm={6} md={4} key={news._id}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                {news.image && (
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={news.image}
+                    alt={news.title}
+                  />
+                )}
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography variant="h6" component="div" noWrap>
+                    {news.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Status: {news.status === 'published' ? 'Publicado' : 'Rascunho'}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <IconButton 
+                    aria-label="editar" 
+                    onClick={() => handleEditNews(news)}
+                    color="primary"
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton 
+                    aria-label="excluir" 
+                    onClick={() => handleDeleteNews(news._id)}
+                    color="error"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
+  };
+  
   return (
     <DashboardContainer>
+      <AppBar position="static" color="default" elevation={0} sx={{ mb: 3 }}>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Painel Administrativo
+          </Typography>
+          <Button 
+            color="inherit" 
+            onClick={handleLogout}
+            startIcon={<LogoutIcon />}
+          >
+            Sair
+          </Button>
+        </Toolbar>
+      </AppBar>
       <Container maxWidth="lg">
-        <Typography variant="h4" component="h1" gutterBottom>
-          Painel Administrativo
-        </Typography>
 
         <Paper sx={{ mb: 3 }}>
           <Tabs
@@ -138,11 +287,44 @@ const AdminDashboard = () => {
             <Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                 <Typography variant="h5">Gerenciar Notícias</Typography>
-                <Button variant="contained" color="primary">
-                  Nova Notícia
-                </Button>
               </Box>
-              {/* TODO: Implementar lista de notícias e formulário de edição */}
+              
+              {/* Lista de notícias existentes */}
+              {!isEditing && <NewsList />}
+              
+              {isEditing ? (
+                <Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+                    <Typography variant="h6">Editar Notícia</Typography>
+                    <Button 
+                      variant="outlined" 
+                      onClick={() => {
+                        setIsEditing(false);
+                        setSelectedNews(null);
+                      }}
+                    >
+                      Cancelar Edição
+                    </Button>
+                  </Box>
+                  <NewsForm 
+                    newsToEdit={selectedNews} 
+                    onSuccess={() => {
+                      fetchNewsList();
+                      setIsEditing(false);
+                      setSelectedNews(null);
+                    }} 
+                  />
+                </Box>
+              ) : (
+                <>
+                  <Divider sx={{ my: 4 }} />
+                  
+                  <Typography variant="h6" gutterBottom>
+                    Adicionar Nova Notícia
+                  </Typography>
+                  <NewsForm onSuccess={() => fetchNewsList()} />
+                </>
+              )}
             </Box>
           )}
 

@@ -50,8 +50,11 @@ const AdminLogin = () => {
       })
       const data = await response.json()
       if (response.ok) {
-        // Salve o token no localStorage (ou cookies)
+        // Salvar o token tanto no localStorage quanto no sessionStorage
+        // localStorage persiste mesmo após fechar o navegador
+        // sessionStorage é limpo quando a aba/janela é fechada
         localStorage.setItem('token', data.token)
+        sessionStorage.setItem('token', data.token)
         navigate('/admin/dashboard')
       } else {
         alert(data.message || 'Falha no login')
