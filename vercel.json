@@ -2,18 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend/index.html",
+      "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
-      },
-      "outputDirectory": "dist"
+        "distDir": "build"
+      }
     },
     {
       "src": "backend/src/server.js",
-      "use": "@vercel/node",
-      "config": { "includeFiles": ["backend/**"] },
-      "root": "backend"
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -22,8 +19,11 @@
       "dest": "backend/src/server.js"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
-      "dest": "frontend/dist/$1"
+      "dest": "frontend/build/index.html"
     }
   ]
 }
