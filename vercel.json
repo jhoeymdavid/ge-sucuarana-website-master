@@ -9,9 +9,7 @@
     {
       "src": "backend/src/server.js",
       "use": "@vercel/node",
-      "config": { "includeFiles": ["backend/**"] },
-      "root": "backend",
-      "start": "node src/server.js"
+      "config": { "includeFiles": ["backend/**"] }
     }
   ],
   "routes": [
