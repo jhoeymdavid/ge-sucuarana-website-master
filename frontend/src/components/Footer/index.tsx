@@ -1,5 +1,6 @@
-import { Box, Container, Grid, Typography, Link } from '@mui/material'
-import { Link as RouterLink } from 'react-router-dom'
+import { Box, Container, Grid, Typography } from '@mui/material'
+// import { Link as RouterLink } from 'react-router-dom' // Removido pois não está sendo usado
+// import { Link } from '@mui/material' // Removido pois não está sendo usado
 
 const Footer = () => {
   return (

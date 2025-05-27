@@ -52,7 +52,7 @@ const QuemSomos: React.FC = () => {
           <Grid item xs={12}>
             <Card sx={{ mb: 4 }}>
               <CardContent sx={{ p: 4 }}>
-                <SectionTitle variant="h4" component="h2">
+                <SectionTitle variant="h4">
                   Nossa História
                 </SectionTitle>
                 <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
@@ -67,7 +67,7 @@ const QuemSomos: React.FC = () => {
           <Grid item xs={12} md={6}>
             <StyledCard>
               <CardContent sx={{ p: 4 }}>
-                <SectionTitle variant="h5" component="h3">
+                <SectionTitle variant="h5">
                   Missão do Escotismo
                 </SectionTitle>
                 <Typography variant="body1" paragraph>
@@ -83,7 +83,7 @@ const QuemSomos: React.FC = () => {
           <Grid item xs={12} md={6}>
             <StyledCard>
               <CardContent sx={{ p: 4 }}>
-                <SectionTitle variant="h5" component="h3">
+                <SectionTitle variant="h5">
                   Valores Escoteiros
                 </SectionTitle>
                 <Typography variant="body1" component="div">
@@ -108,7 +108,7 @@ const QuemSomos: React.FC = () => {
           <Grid item xs={12}>
             <StyledCard>
               <CardContent sx={{ p: 4 }}>
-                <SectionTitle variant="h5" component="h3">
+                <SectionTitle variant="h5">
                   Método Escoteiro
                 </SectionTitle>
                 <Typography variant="body1" paragraph>
