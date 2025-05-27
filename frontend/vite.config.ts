@@ -22,6 +22,7 @@ export default defineConfig({
     include: ['slick-carousel', 'react-slick']
   },
   build: {
+    outDir: 'build', // Define o diretório de saída para 'build'
     rollupOptions: {
       external: ['slick-carousel/slick/slick.css', 'slick-carousel/slick/slick-theme.css']
     }
