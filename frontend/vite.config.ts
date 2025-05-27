@@ -20,5 +20,10 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['slick-carousel', 'react-slick']
+  },
+  build: {
+    rollupOptions: {
+      external: ['slick-carousel/slick/slick.css']
+    }
   }
 })
