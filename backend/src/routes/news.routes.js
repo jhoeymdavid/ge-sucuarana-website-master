@@ -7,7 +7,7 @@ import auth from '../middleware/auth.js';
 const newsRouter = Router();
 const upload = multer();
 
-// Image upload route
+
 newsRouter.post('/upload-image', auth, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
@@ -33,12 +33,12 @@ newsRouter.post('/upload-image', auth, upload.single('file'), async (req, res) =
   }
 });
 
-// Criar notícia (POST)
+
 newsRouter.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { title, content, tags, status } = req.body;
     
-    // Criar nova notícia
+
     const news = new News({
       title,
       content,
@@ -47,10 +47,9 @@ newsRouter.post('/', auth, upload.single('image'), async (req, res) => {
       status: status || 'draft',
     });
     
-    // Se houver imagem, salvar os dados da imagem
+
     if (req.file) {
-      // Aqui você pode implementar o upload para um serviço de armazenamento
-      // ou salvar diretamente no banco como base64
+
       const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
       news.image = base64Image;
       news.imageDimensions = { width: 800, height: 450 };
@@ -64,7 +63,7 @@ newsRouter.post('/', auth, upload.single('image'), async (req, res) => {
   }
 });
 
-// Listar todas as notícias
+
 newsRouter.get('/', async (req, res) => {
   try {
     const news = await News.find({ status: 'published' })
@@ -76,7 +75,7 @@ newsRouter.get('/', async (req, res) => {
   }
 });
 
-// Obter notícia por ID
+
 newsRouter.get('/:id', async (req, res) => {
   try {
     const news = await News.findById(req.params.id).populate('author', 'name');
@@ -87,29 +86,29 @@ newsRouter.get('/:id', async (req, res) => {
   }
 });
 
-// Atualizar notícia (PUT)
+
 newsRouter.put('/:id', auth, upload.single('image'), async (req, res) => {
   try {
     const { title, content, tags, status } = req.body;
     
-    // Verificar se a notícia existe
+
     const existingNews = await News.findById(req.params.id);
     if (!existingNews) return res.status(404).json({ message: 'Notícia não encontrada.' });
     
-    // Atualizar campos
+
     existingNews.title = title || existingNews.title;
     existingNews.content = content || existingNews.content;
     existingNews.tags = tags ? tags.split(',').map(tag => tag.trim()) : existingNews.tags;
     existingNews.status = status || existingNews.status;
     
-    // Se houver uma nova imagem, atualizar
+
     if (req.file) {
       const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
       existingNews.image = base64Image;
       existingNews.imageDimensions = { width: 800, height: 450 };
     }
     
-    // Se o status mudar para 'published', atualizar a data de publicação
+
     if (status === 'published' && existingNews.status !== 'published') {
       existingNews.publishDate = new Date();
     }
@@ -122,7 +121,7 @@ newsRouter.put('/:id', auth, upload.single('image'), async (req, res) => {
   }
 });
 
-// Excluir notícia (DELETE)
+
 newsRouter.delete('/:id', auth, async (req, res) => {
   try {
     const news = await News.findByIdAndDelete(req.params.id);

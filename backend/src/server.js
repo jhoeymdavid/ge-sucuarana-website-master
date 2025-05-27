@@ -11,22 +11,22 @@ dotenv.config()
 
 const app = express()
 
-// Middlewares
+
 app.use(cors())
 app.use(express.json())
 
-// Database connection
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.error('MongoDB connection error:', error))
 
-// Routes
+
 app.use('/api/auth', authRoutes)
 app.use('/api/news', newsRoutes)
 app.use('/api/events', eventsRoutes)
 app.use('/api/gallery', galleryRoutes)
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500).json({ message: 'Something went wrong!' })

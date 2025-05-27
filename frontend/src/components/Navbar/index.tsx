@@ -62,7 +62,7 @@ const Navbar = () => {
     <AppBar position="static" color="default" elevation={0} sx={{ bgcolor: "#000" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* Logo - Desktop */}
+          
           <Box
             component={RouterLink}
             to="/"
@@ -97,7 +97,7 @@ const Navbar = () => {
               </Typography>
             </Box>
           </Box>
-          {/* Mobile menu */}
+          
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -145,7 +145,7 @@ const Navbar = () => {
               </MenuItem>
             </Menu>
           </Box>
-          {/* Logo - Mobile */}
+          
           <Box
             component={RouterLink}
             to="/"
@@ -181,7 +181,7 @@ const Navbar = () => {
               </Typography>
             </Box>
           </Box>
-          {/* Desktop menu */}
+          
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
             {pages.map((page) => (
               <Button
@@ -195,7 +195,7 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-          {/* Admin button - Desktop */}
+          
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Button
               component={RouterLink}

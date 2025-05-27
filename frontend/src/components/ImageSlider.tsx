@@ -40,7 +40,7 @@ const ImageSlider = () => {
           <img 
             src={`http://localhost:5000/api/gallery/${img._id}`} 
             alt={img.name} 
-            style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '8px' }} // Ajuste de estilo
+            style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '8px' }} 
           />
         </div>
       ))}

@@ -52,7 +52,6 @@ const NewsForm = ({ onSuccess, newsToEdit }: NewsFormProps) => {
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   
-  // Atualizar o formulário quando newsToEdit mudar
   useEffect(() => {
     if (newsToEdit) {
       setTitle(newsToEdit.title);
@@ -61,7 +60,6 @@ const NewsForm = ({ onSuccess, newsToEdit }: NewsFormProps) => {
       setStatus(newsToEdit.status);
       setImagePreview(newsToEdit.image || null);
     } else {
-      // Limpar o formulário se não houver notícia para editar
       setTitle('');
       setContent('');
       setTags([]);
@@ -112,7 +110,6 @@ const NewsForm = ({ onSuccess, newsToEdit }: NewsFormProps) => {
     try {
       const token = localStorage.getItem('token');
       
-      // Determinar se estamos criando ou atualizando
       const isEditing = !!newsToEdit;
       const url = isEditing 
         ? `http://localhost:5000/api/news/${newsToEdit?._id}` 
@@ -129,7 +126,6 @@ const NewsForm = ({ onSuccess, newsToEdit }: NewsFormProps) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Limpar formulário se não estiver editando
         if (!isEditing) {
           setTitle('');
           setContent('');
@@ -139,7 +135,6 @@ const NewsForm = ({ onSuccess, newsToEdit }: NewsFormProps) => {
           if (fileInputRef.current) fileInputRef.current.value = '';
         }
         
-        // Notificar sucesso
         alert(isEditing ? 'Notícia atualizada com sucesso!' : 'Notícia criada com sucesso!');
         if (onSuccess) onSuccess();
       } else {
