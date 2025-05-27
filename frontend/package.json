@@ -17,7 +17,6 @@
     "@tinymce/tinymce-react": "^6.1.0",
     "axios": "^1.6.2",
     "date-fns": "^4.1.0",
-    "gesucuarana-website": "file:..",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.0",

@@ -13,13 +13,14 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "gesucuarana-website": "file:..",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.1",
     "multer": "^2.0.0",
     "yup": "^1.3.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "@types/node": "^20.x.x",
+    "@types/dotenv": "^16.x.x"
   }
 }
