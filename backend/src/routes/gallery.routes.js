@@ -6,7 +6,7 @@ import auth from '../middleware/auth.js'
 const galleryRouter = Router()
 const upload = multer()
 
-// Upload de imagem protegido
+
 galleryRouter.post('/upload', auth, upload.single('image'), async (req, res) => {
   try {
     const { originalname, mimetype, buffer } = req.file
@@ -23,7 +23,7 @@ galleryRouter.post('/upload', auth, upload.single('image'), async (req, res) => 
   }
 })
 
-// Listar imagens (retorna apenas id e nome)
+
 galleryRouter.get('/', async (req, res) => {
   try {
     const images = await GalleryImage.find({}, 'name') 
@@ -33,7 +33,7 @@ galleryRouter.get('/', async (req, res) => {
   }
 })
 
-// Obter imagem binária por id
+
 galleryRouter.get('/:id', async (req, res) => {
   try {
     const image = await GalleryImage.findById(req.params.id)
@@ -45,7 +45,7 @@ galleryRouter.get('/:id', async (req, res) => {
   }
 })
 
-// Rota para deletar uma imagem por ID
+
 galleryRouter.delete('/:id', auth, async (req, res) => {
   try {
     const image = await GalleryImage.findByIdAndDelete(req.params.id)

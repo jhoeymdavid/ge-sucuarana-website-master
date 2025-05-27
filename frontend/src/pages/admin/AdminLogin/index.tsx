@@ -11,8 +11,8 @@ const LoginContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.custom.lightGray,
   padding: theme.spacing(0),
   [theme.breakpoints.down('sm')]: {
-    minHeight: 'calc(100vh - 56px)', // Navbar menor no mobile
-    paddingTop: theme.spacing(2),    // Espaço menor no topo no mobile
+    minHeight: 'calc(100vh - 56px)', 
+    paddingTop: theme.spacing(2),    
   },
 }))
 
@@ -50,9 +50,6 @@ const AdminLogin = () => {
       })
       const data = await response.json()
       if (response.ok) {
-        // Salvar o token tanto no localStorage quanto no sessionStorage
-        // localStorage persiste mesmo após fechar o navegador
-        // sessionStorage é limpo quando a aba/janela é fechada
         localStorage.setItem('token', data.token)
         sessionStorage.setItem('token', data.token)
         navigate('/admin/dashboard')

@@ -122,7 +122,6 @@ const AdminDashboard = () => {
     if (currentTab === 2) {
       fetchImages()
     }
-    // eslint-disable-next-line
   }, [currentTab])
 
   // Estado e funções para gerenciar notícias

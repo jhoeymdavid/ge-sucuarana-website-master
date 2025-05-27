@@ -28,7 +28,7 @@ const Footer = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
-            {/* Espaço vazio para centralizar ou outros conteúdos */}
+            
           </Grid>
           <Grid item xs={12} sm={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h6" gutterBottom sx={{ color: '#BC884F' }}>

@@ -8,6 +8,7 @@ import ContactPage from './pages/ContactPage'
 import ComoSeTornarEscoteiro from './pages/ComoSeTornarEscoteiro/ComoSeTornarEscoteiro'
 import NewsPage from './pages/NewsPage'
 import NewsDetail from './pages/NewsDetail'
+import QuemSomos from './pages/QuemSomos'
 import PrivateRoute from '@components/PrivateRoute'
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/como-se-tornar-escoteiro" element={<ComoSeTornarEscoteiro />} />
           <Route path="/noticias" element={<NewsPage />} />
           <Route path="/noticias/:id" element={<NewsDetail />} />
+          <Route path="/quem-somos" element={<QuemSomos />} />
         </Routes>
       </Box>
     </Box>
