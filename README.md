@@ -55,14 +55,17 @@ Este projeto foi desenvolvido utilizando a poderosa stack **MERN** (MongoDB, Exp
 Passos:
 Clonar o Repositório:
 git clone (https://github.com/jhoeymdavid/ge-sucuarana-website-master)
+
 cd gesucuarana-website
-Use code with caution.
-Bash
+
 Configurar Variáveis de Ambiente:
+
 Backend:
 Navegue até a pasta backend: cd backend
+
 Crie um arquivo chamado .env na raiz da pasta backend.
-Adicione as variáveis de ambiente necessárias. Exemplo:
+Adicione as variáveis de ambiente necessárias. 
+
 PORT=5000 # Ou a porta que desejar para o backend
 MONGO_URI=mongodb://localhost:27017/gesucuarana # Ou sua string de conexão do Atlas
 JWT_SECRET=seusegredojwtmuitoseguro
@@ -70,8 +73,9 @@ JWT_SECRET=seusegredojwtmuitoseguro
 Volte para a raiz do projeto: cd ..
 
 Na raiz do projeto (gesucuarana-website), execute o comando para iniciar o frontend e o backend simultaneamente:
+
 npm run dev
-Use code with caution.
+
 
 6. Conclusão
 Este projeto representa a aplicação prática dos conhecimentos adquiridos no curso de Análise e Desenvolvimento de Sistemas, com foco na criação de uma solução tecnológica relevante e alinhada com os Objetivos de Desenvolvimento Sustentável. A colaboração com o Grupo Escoteiro Suçuarana proporcionou uma valiosa experiência no desenvolvimento de um projeto com impacto real.
