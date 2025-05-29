@@ -54,7 +54,7 @@ Este projeto foi desenvolvido utilizando a poderosa stack **MERN** (MongoDB, Exp
 ## Como rodar o projeto:
 Passos:
 Clonar o Repositório:
-git clone [URL_DO_SEU_REPOSITORIO_GIT]
+git clone (https://github.com/jhoeymdavid/ge-sucuarana-website-master)
 cd gesucuarana-website
 Use code with caution.
 Bash
