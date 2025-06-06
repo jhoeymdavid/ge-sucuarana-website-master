@@ -71,6 +71,8 @@ MONGO_URI=mongodb://localhost:27017/gesucuarana # Ou sua string de conexão do A
 JWT_SECRET=seusegredojwtmuitoseguro
 
 Volte para a raiz do projeto: cd ..
+instale as dependências:
+npm install
 
 Na raiz do projeto (gesucuarana-website), execute o comando para iniciar o frontend e o backend simultaneamente:
 
